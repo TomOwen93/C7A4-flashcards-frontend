@@ -2,13 +2,14 @@ import { UserLogin } from "./UserLogin";
 import "./App.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Deck, User } from "../utils/types";
+import { User } from "../utils/types";
 import { FlashCardApp } from "./FlashCardApp";
+import { useImmer } from "use-immer";
+import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
 
 function App() {
-    const [user, setUser] = useState<User>(/*{ username: "Tom", id: 1 }*/);
-    const [userList, setUserlist] = useState<User[]>([]);
-    const [decks, setDecks] = useState<Deck[]>([]);
+    const [user, setUser] = useState<User | undefined>(undefined);
+    const [userList, setUserlist] = useImmer<User[]>([]);
 
     const fetchUsers = async () => {
         const users = await axios.get("http://localhost:4000/users");
@@ -18,26 +19,35 @@ function App() {
 
     const updateUser = async (selectedUser: User) => {
         console.log(selectedUser);
-        const userDecks = await axios
-            .get<Deck[]>(`http://localhost:4000/decks/${selectedUser.userid}`)
-            .then((response) => response.data);
         setUser(selectedUser);
-        setDecks(userDecks);
-        console.log(decks);
+    };
+
+    const addUser = (user: User) => {
+        setUserlist((draft) => {
+            draft.push(user);
+        });
     };
 
     useEffect(() => {
         fetchUsers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div className="App">
-            <UserLogin
-                userList={userList}
-                updateUser={updateUser}
-                user={user}
-            />
-            {user && <FlashCardApp user={user} decks={decks} />}
+            <Container>
+                <VStack>
+                    <Heading textAlign={"center"}>FlashCards</Heading>
+                    <UserLogin
+                        userList={userList}
+                        updateUser={updateUser}
+                        user={user}
+                        addUser={addUser}
+                    />
+                    <Divider />
+                    {user && <FlashCardApp user={user} />}
+                </VStack>
+            </Container>
         </div>
     );
 }
