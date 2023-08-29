@@ -6,13 +6,14 @@ import { User } from "../utils/types";
 import { FlashCardApp } from "./FlashCardApp";
 import { useImmer } from "use-immer";
 import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
+import { baseUrl } from "../utils/baseUrl";
 
 function App() {
     const [user, setUser] = useState<User | undefined>(undefined);
     const [userList, setUserlist] = useImmer<User[]>([]);
 
     const fetchUsers = async () => {
-        const users = await axios.get("http://localhost:4000/users");
+        const users = await axios.get(`${baseUrl}/users`);
         console.log(users);
         setUserlist(users.data);
     };
