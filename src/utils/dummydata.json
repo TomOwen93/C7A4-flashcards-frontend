@@ -1,0 +1,53 @@
+{
+    "users": [
+        {
+            "userid": 1,
+            "username": "user1"
+        },
+        {
+            "userid": 2,
+            "username": "user2"
+        },
+        {
+            "userid": 3,
+            "username": "user3"
+        }
+    ],
+    "decks": [
+        {
+            "deckid": 1,
+            "name": "Deck 1",
+            "userid": 1
+        },
+        {
+            "deckid": 2,
+            "name": "Deck 2",
+            "userid": 1
+        },
+        {
+            "deckid": 3,
+            "name": "Deck A",
+            "userid": 2
+        }
+    ],
+    "cards": [
+        {
+            "cardid": 1,
+            "front": "Question 1",
+            "back": "Answer 1",
+            "deckid": 1
+        },
+        {
+            "cardid": 2,
+            "front": "Question 2",
+            "back": "Answer 2",
+            "deckid": 1
+        },
+        {
+            "cardid": 3,
+            "front": "Question X",
+            "back": "Answer X",
+            "deckid": 3
+        }
+    ]
+}
