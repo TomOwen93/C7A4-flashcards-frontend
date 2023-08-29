@@ -13,6 +13,7 @@ import {
 import { Deck, User } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../utils/baseUrl";
 
 interface CreateDeckProps {
     user: User;
@@ -27,7 +28,7 @@ export default function CreateDeck({
     const [inputValue, setInputValue] = useState<string>("Enter name");
 
     const handleSubmitDeck = async (name: string) => {
-        const response = await axios.post("http://localhost:4000/decks", {
+        const response = await axios.post(`${baseUrl}/decks`, {
             name,
             userid: user.userid,
         });

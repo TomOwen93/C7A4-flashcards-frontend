@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AppOptions from "./AppOptions";
 import { useImmer } from "use-immer";
+import { baseUrl } from "../utils/baseUrl";
 
 interface FlashCardAppProps {
     user: User;
@@ -23,7 +24,7 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
 
     const fetchDecks = async () => {
         const userDecks = await axios
-            .get<Deck[]>(`http://localhost:4000/decks/${user.userid}`)
+            .get<Deck[]>(`${baseUrl}/decks/${user.userid}`)
             .then((response) => response.data);
         setDecks(userDecks);
     };
