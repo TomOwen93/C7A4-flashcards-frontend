@@ -2,11 +2,13 @@ import { UserLogin } from "./UserLogin";
 import "./App.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { User } from "../utils/types";
+import { Deck, User } from "../utils/types";
+import { FlashCardApp } from "./FlashCardApp";
 
 function App() {
-    const [user, setUser] = useState<User>({ username: "Tom", id: 1 });
+    const [user, setUser] = useState<User>(/*{ username: "Tom", id: 1 }*/);
     const [userList, setUserlist] = useState<User[]>([]);
+    const [decks, setDecks] = useState<Deck[]>([]);
 
     const fetchUsers = async () => {
         const users = await axios.get("http://localhost:4000/users");
@@ -14,15 +16,28 @@ function App() {
         setUserlist(users.data);
     };
 
+    const updateUser = async (selectedUser: User) => {
+        console.log(selectedUser);
+        const userDecks = await axios
+            .get<Deck[]>(`http://localhost:4000/decks/${selectedUser.userid}`)
+            .then((response) => response.data);
+        setUser(selectedUser);
+        setDecks(userDecks);
+        console.log(decks);
+    };
+
     useEffect(() => {
         fetchUsers();
     }, []);
 
-    console.log(user);
-
     return (
         <div className="App">
-            <UserLogin userList={userList} setUser={setUser} />
+            <UserLogin
+                userList={userList}
+                updateUser={updateUser}
+                user={user}
+            />
+            {user && <FlashCardApp user={user} decks={decks} />}
         </div>
     );
 }
