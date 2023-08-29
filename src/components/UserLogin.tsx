@@ -3,17 +3,22 @@ import { User } from "../utils/types";
 
 interface UserLoginProps {
     userList: User[];
-    setUser: React.Dispatch<React.SetStateAction<User>>;
+    updateUser(user: User): Promise<void>;
+    user: User | undefined;
 }
 
-export function UserLogin({ userList, setUser }: UserLoginProps): JSX.Element {
+export function UserLogin({
+    userList,
+    updateUser,
+    user,
+}: UserLoginProps): JSX.Element {
     const handleSelectUser = (username: string) => {
         const matchingUser = userList.find(
             (user) => user.username === username
         );
 
         if (matchingUser) {
-            setUser(matchingUser);
+            updateUser(matchingUser);
         }
     };
 
@@ -29,6 +34,7 @@ export function UserLogin({ userList, setUser }: UserLoginProps): JSX.Element {
                     </option>
                 ))}
             </Select>
+            <h1>{user && user.username}</h1>
         </>
     );
 }
