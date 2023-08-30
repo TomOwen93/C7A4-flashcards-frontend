@@ -10,7 +10,7 @@ import {
     ModalOverlay,
     useDisclosure,
 } from "@chakra-ui/react";
-import { Deck, User } from "../utils/types";
+import { Deck } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
