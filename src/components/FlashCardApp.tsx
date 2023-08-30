@@ -49,7 +49,7 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
 
     useEffect(() => {
         fetchCards();
-        // eslint-disable-next-line reac-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chosenDeck]);
 
     const addDeck = (deck: Deck) => {
