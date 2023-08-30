@@ -82,11 +82,14 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
                             ))}
                         </Select>
                     </Stack>
-
                 </VStack>
-                    <div className="flashcard-container">
-                        {chosenDeck ? <Flashcard deck={chosenDeck} /> : <p>please choose a deck to show the cards</p>}
-                    </div>
+                <div className="flashcard-container">
+                    {chosenDeck ? (
+                        <Flashcard deck={chosenDeck} />
+                    ) : (
+                        <p>please choose a deck to show the cards</p>
+                    )}
+                </div>
             </HStack>
         </div>
     );

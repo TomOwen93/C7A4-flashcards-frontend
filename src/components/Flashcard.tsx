@@ -48,7 +48,9 @@ export function Flashcard({ deck }: FlashcardProps): JSX.Element {
         const userCards = await axios
             .get(`${baseUrl}/cards/${deck.deckid}`)
             .then((response) => response.data);
-        setFlashcardState(draft => {draft.cards = userCards})
+        setFlashcardState((draft) => {
+            draft.cards = userCards;
+        });
     };
     useEffect(() => {
         fetchCards();
@@ -56,7 +58,7 @@ export function Flashcard({ deck }: FlashcardProps): JSX.Element {
     }, [deck]);
 
     useEffect(() => {
-        fetchCards()
+        fetchCards();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -79,16 +81,16 @@ export function Flashcard({ deck }: FlashcardProps): JSX.Element {
         }
     }
     function handlePrevCard() {
-        setFlashcardState(
-            (draft) => {
-                draft.currentCardIndex = draft.prevCardIndex
-                draft.frontSide = true;
-            }
-        );
+        setFlashcardState((draft) => {
+            draft.currentCardIndex = draft.prevCardIndex;
+            draft.frontSide = true;
+        });
     }
 
     function handleFlipCard() {
-        setFlashcardState((draft) => {draft.frontSide = !draft.frontSide});
+        setFlashcardState((draft) => {
+            draft.frontSide = !draft.frontSide;
+        });
     }
 
     const currentCard = flashcardState.cards[flashcardState.currentCardIndex];
