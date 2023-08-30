@@ -9,6 +9,7 @@ import { Card, Deck, User } from "../utils/types";
 import CreateDeck from "./CreateDeck";
 import DeleteDeck from "./DeleteDeck";
 import AddCard from "./AddCard";
+import EditDeck from "./EditDeck";
 
 interface AppOptionsProps {
     chosenDeck?: Deck;
@@ -16,6 +17,7 @@ interface AppOptionsProps {
     addDeck: (deck: Deck) => void;
     removeDeck: (deck: Deck) => void;
     addCardtoDeck: (card: Card) => void;
+    editDeckName: (deck: Deck, name: string) => void;
 }
 
 export default function AppOptions({
@@ -24,6 +26,7 @@ export default function AppOptions({
     addDeck,
     removeDeck,
     addCardtoDeck,
+    editDeckName,
 }: AppOptionsProps): JSX.Element {
     return (
         <>
@@ -37,6 +40,10 @@ export default function AppOptions({
                     <AddCard
                         chosenDeck={chosenDeck}
                         addCardtoDeck={addCardtoDeck}
+                    />
+                    <EditDeck
+                        chosenDeck={chosenDeck}
+                        editDeckName={editDeckName}
                     />
                 </HStack>
             ) : (

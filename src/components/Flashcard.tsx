@@ -87,12 +87,24 @@ export function Flashcard({ cards }: FlashcardProps): JSX.Element {
                                     <Button onClick={() => handleFlipCard()}>
                                         flip card
                                     </Button>
-                                    <Button onClick={() => handleNextCard()}>
-                                        next card
-                                    </Button>
-                                    <Button onClick={() => handlePrevCard()}>
-                                        previous card
-                                    </Button>
+                                    {flashcardState.currentCardIndex <
+                                        cards.length - 1 && (
+                                        <>
+                                            <Button
+                                                onClick={() => handleNextCard()}
+                                            >
+                                                next card
+                                            </Button>
+                                        </>
+                                    )}
+
+                                    {flashcardState.currentCardIndex > 0 && (
+                                        <Button
+                                            onClick={() => handlePrevCard()}
+                                        >
+                                            previous card
+                                        </Button>
+                                    )}
                                 </ButtonGroup>
                             </HStack>
                         </CardBody>

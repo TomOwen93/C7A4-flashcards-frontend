@@ -63,13 +63,23 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
 
     const removeDeck = (deck: Deck) => {
         setDecks((draft) => {
-            draft.filter((d) => d.deckid !== deck.deckid);
+            return draft.filter((d) => d.deckid !== deck.deckid);
         });
+        setChosenDeck(undefined);
     };
 
     const addCardtoDeck = (card: Card) => {
         setChosenDecksCards((draft) => {
             draft.push(card);
+        });
+    };
+
+    const editDeckName = (deck: Deck, newName: string) => {
+        console.log(deck, newName);
+        setDecks((prev) => {
+            return prev.map((d) =>
+                d.deckid === deck.deckid ? { ...d, name: newName } : deck
+            );
         });
     };
 
@@ -87,10 +97,12 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
                         addDeck={addDeck}
                         removeDeck={removeDeck}
                         addCardtoDeck={addCardtoDeck}
+                        editDeckName={editDeckName}
                     />
 
                     <Stack>
                         <Select
+                            textAlign={"center"}
                             value={chosenDeck?.deckid}
                             onChange={(e) =>
                                 handleChooseDeck(parseInt(e.target.value))

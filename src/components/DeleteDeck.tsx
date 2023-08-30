@@ -8,6 +8,7 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { Deck } from "../utils/types";
 import axios from "axios";
@@ -27,10 +28,22 @@ export default function DeleteDeck({
     const handleDeleteDeck = async () => {
         await axios.delete(`${baseUrl}/decks/${chosenDeck.deckid}`);
         removeDeck(chosenDeck);
+
+        deleteToast(`Deck: ${chosenDeck.name} has been deleted`);
+
         onClose();
     };
 
-    console.log(`${baseUrl}/decks/${chosenDeck.deckid}`);
+    const toast = useToast();
+    const deleteToast = (message: string) => {
+        toast({
+            title: "Deleted",
+            description: message,
+            status: "info",
+            duration: 4000, // Duration in milliseconds
+            isClosable: true,
+        });
+    };
 
     return (
         <>

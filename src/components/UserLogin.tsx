@@ -87,6 +87,7 @@ export function UserLogin({
         <>
             <VStack>
                 <Select
+                    textAlign={"center"}
                     placeholder="Select User"
                     value={selectedUserValue}
                     onChange={(e) => handleSelectUser(e.target.value)}

@@ -9,6 +9,7 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { Deck, User } from "../utils/types";
 import { useState } from "react";
@@ -27,13 +28,42 @@ export default function CreateDeck({
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [inputValue, setInputValue] = useState<string>("Enter name");
 
-    const handleSubmitDeck = async (name: string) => {
-        const response = await axios.post(`${baseUrl}/decks`, {
-            name,
-            userid: user.userid,
+    const toast = useToast();
+    const successToast = (message: string) => {
+        toast({
+            title: "Success",
+            description: message,
+            status: "success",
+            duration: 4000, // Duration in milliseconds
+            isClosable: true,
         });
+    };
 
-        addDeck(response.data);
+    const failToast = (message: string) => {
+        toast({
+            title: "Error",
+            description: message,
+            status: "error",
+            duration: 4000, // Duration in milliseconds
+            isClosable: true,
+        });
+    };
+
+    const handleSubmitDeck = async (name: string) => {
+        console.log(name, name !== "", name !== null);
+        if (name !== "" && name !== null) {
+            const response = await axios.post(`${baseUrl}/decks`, {
+                name,
+                userid: user.userid,
+            });
+            successToast(`Successfully submitted deck:
+             "${name}"`);
+            addDeck(response.data);
+        } else {
+            failToast("Your deck name must not be blank or null!");
+        }
+
+        setInputValue("");
         onClose();
     };
 
@@ -47,6 +77,7 @@ export default function CreateDeck({
                     <ModalCloseButton />
                     <ModalBody>
                         <Input
+                            value={inputValue}
                             placeholder="Enter name"
                             onChange={(e) => setInputValue(e.target.value)}
                         ></Input>

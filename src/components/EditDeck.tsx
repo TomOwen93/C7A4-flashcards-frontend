@@ -10,44 +10,42 @@ import {
     ModalOverlay,
     useDisclosure,
 } from "@chakra-ui/react";
-import { Deck, User } from "../utils/types";
+import { Deck } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
 
-interface CreateDeckProps {
-    user: User;
-    addDeck: (deck: Deck) => void;
+interface EditDeckProps {
+    chosenDeck: Deck;
+    editDeckName: (deck: Deck, name: string) => void;
 }
 
-export default function CreateDeck({
-    user,
-    addDeck,
-}: CreateDeckProps): JSX.Element {
+export default function EditDeck({
+    chosenDeck,
+    editDeckName,
+}: EditDeckProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [inputValue, setInputValue] = useState<string>("Enter name");
 
-    const handleSubmitDeck = async (name: string) => {
-        const response = await axios.post(`${baseUrl}/decks`, {
-            name,
-            userid: user.userid,
+    const handleEditDeck = async (newName: string) => {
+        await axios.patch(`${baseUrl}/decks/${chosenDeck.deckid}`, {
+            name: newName,
         });
-
-        addDeck(response.data);
+        editDeckName(chosenDeck, newName);
         onClose();
     };
 
     return (
         <>
-            <Button onClick={onOpen}>Submit new deck</Button>
+            <Button onClick={onOpen}>Edit Deck</Button>
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Submit new Deck:</ModalHeader>
+                    <ModalHeader>{`Edit Deck: ${chosenDeck.name}`}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <Input
-                            placeholder="Enter name"
+                            placeholder="Enter new name:"
                             onChange={(e) => setInputValue(e.target.value)}
                         ></Input>
                     </ModalBody>
@@ -56,9 +54,9 @@ export default function CreateDeck({
                         <Button
                             colorScheme="blue"
                             mr={3}
-                            onClick={() => handleSubmitDeck(inputValue)}
+                            onClick={() => handleEditDeck(inputValue)}
                         >
-                            Submit Deck
+                            Submit
                         </Button>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
