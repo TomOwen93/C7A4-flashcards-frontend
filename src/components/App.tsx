@@ -5,7 +5,7 @@ import axios from "axios";
 import { User } from "../utils/types";
 import { FlashCardApp } from "./FlashCardApp";
 import { useImmer } from "use-immer";
-import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
+import { Container, Divider, HStack, Heading, VStack } from "@chakra-ui/react";
 import { baseUrl } from "../utils/baseUrl";
 
 function App() {
@@ -37,17 +37,21 @@ function App() {
     return (
         <div className="App">
             <Container>
-                <VStack>
-                    <Heading textAlign={"center"}>FlashCards</Heading>
-                    <UserLogin
-                        userList={userList}
-                        updateUser={updateUser}
-                        user={user}
-                        addUser={addUser}
-                    />
-                    <Divider />
+                <Heading textAlign={"center"}>FlashCards</Heading>
+            </Container>
+            <Container>
+                <HStack height={"50rem"}>
+                    <VStack>
+                        <UserLogin
+                            userList={userList}
+                            updateUser={updateUser}
+                            user={user}
+                            addUser={addUser}
+                        />
+                    </VStack>
+                    <Divider orientation="vertical" />
                     {user && <FlashCardApp user={user} />}
-                </VStack>
+                </HStack>
             </Container>
         </div>
     );
