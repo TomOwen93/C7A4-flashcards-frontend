@@ -5,12 +5,21 @@ import axios from "axios";
 import { User } from "../utils/types";
 import { FlashCardApp } from "./FlashCardApp";
 import { useImmer } from "use-immer";
-import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
+import {
+    Button,
+    Container,
+    Divider,
+    Heading,
+    VStack,
+    useColorMode,
+} from "@chakra-ui/react";
 import { baseUrl } from "../utils/baseUrl";
+import { MoonIcon } from "@chakra-ui/icons";
 
 function App() {
     const [user, setUser] = useState<User | undefined>(undefined);
     const [userList, setUserlist] = useImmer<User[]>([]);
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const fetchUsers = async () => {
         const users = await axios.get(`${baseUrl}/users`);
@@ -39,6 +48,11 @@ function App() {
             <Container>
                 <Heading textAlign={"center"}>FlashCards</Heading>
             </Container>
+
+            <Button onClick={toggleColorMode} leftIcon={<MoonIcon />}>
+                Toggle {colorMode === "light" ? "Dark" : "Light"}
+            </Button>
+
             <Container maxW={"800px"}>
                 <VStack>
                     <VStack>
