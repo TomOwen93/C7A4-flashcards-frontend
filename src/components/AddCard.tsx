@@ -7,10 +7,8 @@ import {
     ModalHeader,
     ModalCloseButton,
     ModalBody,
-    Input,
     ModalFooter,
     Textarea,
-    useStatStyles,
     VStack,
 } from "@chakra-ui/react";
 import { Deck } from "../utils/types";
@@ -28,7 +26,7 @@ export default function AddCard({ chosenDeck }: AddCardProps): JSX.Element {
     const [backInputValue, setBackInputValue] = useState("");
 
     const handleSubmitCard = async () => {
-        const response = await axios.post(`${baseUrl}/cards`, {
+        await axios.post(`${baseUrl}/cards`, {
             deckid: chosenDeck.deckid,
             front: frontInputValue,
             back: backInputValue,

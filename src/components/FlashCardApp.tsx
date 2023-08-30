@@ -16,7 +16,7 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
 
     const [chosenDeck, setChosenDeck] = useState<Deck>();
     const [decks, setDecks] = useImmer<Deck[]>([]);
-    const [cardList, setCardList] = useImmer<Card[]>([]);
+    const [_cardList, setCardList] = useImmer<Card[]>([]);
 
     const handleChooseDeck = (deckid: number) => {
         const newDeck = decks.find((deck) => deck.deckid === deckid);
@@ -49,7 +49,7 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
 
     useEffect(() => {
         fetchCards();
-        // eslint-disable-next-line reac-hooks/exhaustive-depst
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chosenDeck]);
 
     const addDeck = (deck: Deck) => {
