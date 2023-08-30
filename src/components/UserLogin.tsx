@@ -17,6 +17,7 @@ import {
 
 import { useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../utils/baseUrl";
 
 interface UserLoginProps {
     userList: User[];
@@ -50,12 +51,9 @@ export function UserLogin({
         if (inputValue === "" || inputValue === null) {
             failToast(`Your username must not be blank or null`);
         } else {
-            const response = await axios.post<User>(
-                "http://localhost:4000/users/",
-                {
-                    username: inputValue,
-                }
-            );
+            const response = await axios.post<User>(`${baseUrl}/users/`, {
+                username: inputValue,
+            });
             successToast(`New user ${inputValue} added`);
             addUser(response.data);
             updateUser(response.data);
