@@ -5,7 +5,7 @@ import axios from "axios";
 import { User } from "../utils/types";
 import { FlashCardApp } from "./FlashCardApp";
 import { useImmer } from "use-immer";
-import { Container, Divider, HStack, Heading, VStack } from "@chakra-ui/react";
+import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
 import { baseUrl } from "../utils/baseUrl";
 
 function App() {
@@ -39,8 +39,8 @@ function App() {
             <Container>
                 <Heading textAlign={"center"}>FlashCards</Heading>
             </Container>
-            <Container>
-                <HStack height={"50rem"}>
+            <Container maxW={"800px"}>
+                <VStack>
                     <VStack>
                         <UserLogin
                             userList={userList}
@@ -49,9 +49,9 @@ function App() {
                             addUser={addUser}
                         />
                     </VStack>
-                    <Divider orientation="vertical" />
+                    <Divider orientation="horizontal" />
                     {user && <FlashCardApp user={user} />}
-                </HStack>
+                </VStack>
             </Container>
         </div>
     );

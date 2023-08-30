@@ -1,5 +1,11 @@
-import { Text } from "@chakra-ui/react";
-import { Deck, User } from "../utils/types";
+import {
+    Alert,
+    AlertDescription,
+    AlertIcon,
+    AlertTitle,
+    HStack,
+} from "@chakra-ui/react";
+import { Card, Deck, User } from "../utils/types";
 import CreateDeck from "./CreateDeck";
 import DeleteDeck from "./DeleteDeck";
 import AddCard from "./AddCard";
@@ -9,6 +15,7 @@ interface AppOptionsProps {
     user: User;
     addDeck: (deck: Deck) => void;
     removeDeck: (deck: Deck) => void;
+    addCardtoDeck: (card: Card) => void;
 }
 
 export default function AppOptions({
@@ -16,22 +23,32 @@ export default function AppOptions({
     user,
     addDeck,
     removeDeck,
+    addCardtoDeck,
 }: AppOptionsProps): JSX.Element {
     return (
         <>
-            <CreateDeck user={user} addDeck={addDeck} />
             {chosenDeck ? (
-                <>
+                <HStack>
                     <DeleteDeck
                         chosenDeck={chosenDeck}
                         removeDeck={removeDeck}
                     />
 
-                    <AddCard chosenDeck={chosenDeck} />
-                </>
+                    <AddCard
+                        chosenDeck={chosenDeck}
+                        addCardtoDeck={addCardtoDeck}
+                    />
+                </HStack>
             ) : (
-                <Text fontSize="lg">You need to add or select a deck!</Text>
+                <Alert status="error">
+                    <AlertIcon />
+                    <AlertTitle>No Deck Selected</AlertTitle>
+                    <AlertDescription>
+                        You need to add or select a deck!
+                    </AlertDescription>
+                </Alert>
             )}
+            <CreateDeck user={user} addDeck={addDeck} />
         </>
     );
 }

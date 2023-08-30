@@ -12,6 +12,7 @@ import {
     useDisclosure,
     Select,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -32,6 +33,7 @@ export function UserLogin({
 }: UserLoginProps): JSX.Element {
     const [inputValue, setInputValue] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [selectedUserValue, setSelectedUserValue] = useState("");
 
     const handleSelectUser = (username: string) => {
         const matchingUser = userList.find(
@@ -40,19 +42,47 @@ export function UserLogin({
 
         if (matchingUser) {
             updateUser(matchingUser);
+            setSelectedUserValue(username);
         }
     };
 
     const handleSubmitUser = async () => {
-        const response = await axios.post<User>(
-            "http://localhost:4000/users/",
-            {
-                username: inputValue,
-            }
-        );
-
-        addUser(response.data);
+        if (inputValue === "" || inputValue === null) {
+            failToast(`Your username must not be blank or null`);
+        } else {
+            const response = await axios.post<User>(
+                "http://localhost:4000/users/",
+                {
+                    username: inputValue,
+                }
+            );
+            successToast(`New user ${inputValue} added`);
+            addUser(response.data);
+            updateUser(response.data);
+            setSelectedUserValue(inputValue);
+        }
         onClose();
+    };
+
+    const toast = useToast();
+    const successToast = (message: string) => {
+        toast({
+            title: "Success",
+            description: message,
+            status: "success",
+            duration: 4000, // Duration in milliseconds
+            isClosable: true,
+        });
+    };
+
+    const failToast = (message: string) => {
+        toast({
+            title: "Error",
+            description: message,
+            status: "error",
+            duration: 4000, // Duration in milliseconds
+            isClosable: true,
+        });
     };
 
     return (
@@ -60,6 +90,7 @@ export function UserLogin({
             <VStack>
                 <Select
                     placeholder="Select User"
+                    value={selectedUserValue}
                     onChange={(e) => handleSelectUser(e.target.value)}
                 >
                     {userList.map((user) => (
