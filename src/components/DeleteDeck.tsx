@@ -1,6 +1,5 @@
 import {
     Button,
-    Input,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -10,8 +9,7 @@ import {
     ModalOverlay,
     useDisclosure,
 } from "@chakra-ui/react";
-import { Deck, User } from "../utils/types";
-import { useState } from "react";
+import { Deck } from "../utils/types";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
 
@@ -27,9 +25,7 @@ export default function DeleteDeck({
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleDeleteDeck = async () => {
-        const response = await axios.delete(
-            `${baseUrl}/decks/${chosenDeck.deckid}`
-        );
+        await axios.delete(`${baseUrl}/decks/${chosenDeck.deckid}`);
         removeDeck(chosenDeck);
         onClose();
     };
