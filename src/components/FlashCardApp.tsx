@@ -1,5 +1,5 @@
-import { HStack, Select, Stack, VStack } from "@chakra-ui/react";
-import { Deck, User } from "../utils/types";
+import { Select, Stack, VStack } from "@chakra-ui/react";
+import { Card, Deck, User } from "../utils/types";
 import { Flashcard } from "./Flashcard";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -16,7 +16,7 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
 
     const [chosenDeck, setChosenDeck] = useState<Deck>();
     const [decks, setDecks] = useImmer<Deck[]>([]);
-    // const [_cardList, setCardList] = useImmer<Card[]>([]);
+    const [chosenDecksCards, setChosenDecksCards] = useImmer<Card[]>([]);
 
     const handleChooseDeck = (deckid: number) => {
         const newDeck = decks.find((deck) => deck.deckid === deckid);
@@ -40,15 +40,25 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
-    // useEffect(() => {
-    //     fetchCards();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [chosenDeck]);
+    const fetchCards = async () => {
+        if (chosenDeck) {
+            const userCards = await axios
+                .get(`${baseUrl}/cards/${chosenDeck.deckid}`)
+                .then((response) => response.data);
+            setChosenDecksCards(userCards);
+        }
+    };
+
+    useEffect(() => {
+        fetchCards();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chosenDeck]);
 
     const addDeck = (deck: Deck) => {
         setDecks((draft) => {
             draft.push(deck);
         });
+        setChosenDeck(deck);
     };
 
     const removeDeck = (deck: Deck) => {
@@ -57,19 +67,31 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
         });
     };
 
+    const addCardtoDeck = (card: Card) => {
+        setChosenDecksCards((draft) => {
+            draft.push(card);
+        });
+    };
+
     return (
         <div>
-            <HStack>
+            <VStack>
+                <div className="flashcard-container">
+                    {chosenDeck && <Flashcard cards={chosenDecksCards} />}
+                </div>
+
                 <VStack>
                     <AppOptions
                         chosenDeck={chosenDeck}
                         user={user}
                         addDeck={addDeck}
                         removeDeck={removeDeck}
+                        addCardtoDeck={addCardtoDeck}
                     />
 
                     <Stack>
                         <Select
+                            value={chosenDeck?.deckid}
                             onChange={(e) =>
                                 handleChooseDeck(parseInt(e.target.value))
                             }
@@ -83,14 +105,7 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
                         </Select>
                     </Stack>
                 </VStack>
-                <div className="flashcard-container">
-                    {chosenDeck ? (
-                        <Flashcard deck={chosenDeck} />
-                    ) : (
-                        <p>please choose a deck to show the cards</p>
-                    )}
-                </div>
-            </HStack>
+            </VStack>
         </div>
     );
 }

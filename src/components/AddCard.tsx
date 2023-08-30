@@ -11,28 +11,34 @@ import {
     Textarea,
     VStack,
 } from "@chakra-ui/react";
-import { Deck } from "../utils/types";
+import { Card, Deck } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
 
 interface AddCardProps {
     chosenDeck: Deck;
+    addCardtoDeck: (card: Card) => void;
 }
 
-export default function AddCard({ chosenDeck }: AddCardProps): JSX.Element {
+export default function AddCard({
+    chosenDeck,
+    addCardtoDeck,
+}: AddCardProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [frontInputValue, setFrontInputValue] = useState("");
     const [backInputValue, setBackInputValue] = useState("");
 
     const handleSubmitCard = async () => {
-        await axios.post(`${baseUrl}/cards`, {
+        const response = await axios.post(`${baseUrl}/cards`, {
             deckid: chosenDeck.deckid,
             front: frontInputValue,
             back: backInputValue,
         });
         setFrontInputValue("");
         setBackInputValue("");
+
+        addCardtoDeck(response.data);
         onClose();
     };
 
