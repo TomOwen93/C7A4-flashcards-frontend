@@ -21,8 +21,6 @@ interface FlashCardAppProps {
 }
 
 export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
-    console.log(user);
-
     const [chosenDeck, setChosenDeck] = useState<Deck>();
     const [decks, setDecks] = useImmer<Deck[]>([]);
     const [chosenDecksCards, setChosenDecksCards] = useImmer<Card[]>([]);
@@ -84,7 +82,6 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
     };
 
     const editDeckName = (deck: Deck, newName: string) => {
-        console.log(deck, newName);
         setDecks((prev) => {
             return prev.map((d) =>
                 d.deckid === deck.deckid ? { ...d, name: newName } : deck
@@ -107,6 +104,8 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
                             <Flashcard
                                 cards={chosenDecksCards}
                                 handleDeletedCard={handleDeletedCard}
+                                user={user}
+                                chosenDeck={chosenDeck}
                             />
                         )}
                     </div>

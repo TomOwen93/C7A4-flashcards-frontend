@@ -50,7 +50,6 @@ export default function CreateDeck({
     };
 
     const handleSubmitDeck = async (name: string) => {
-        console.log(name, name !== "", name !== null);
         if (name !== "" && name !== null) {
             const response = await axios.post(`${baseUrl}/decks`, {
                 name,

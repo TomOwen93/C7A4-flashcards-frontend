@@ -37,7 +37,6 @@ export default function DownloadCSV({ cards }: DownloadCSVProps) {
         deckid: c.deckid,
     }));
 
-    console.log(data);
     return (
         <>
             <Button onClick={onOpen}>Download as CSV</Button>
