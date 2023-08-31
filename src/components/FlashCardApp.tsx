@@ -1,4 +1,12 @@
-import { Select, Stack, VStack } from "@chakra-ui/react";
+import {
+    Alert,
+    AlertDescription,
+    AlertIcon,
+    AlertTitle,
+    Select,
+    Stack,
+    VStack,
+} from "@chakra-ui/react";
 import { Card, Deck, User } from "../utils/types";
 import { Flashcard } from "./Flashcard";
 import { useEffect, useState } from "react";
@@ -83,12 +91,33 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
         });
     };
 
+    function handleDeletedCard(card: Card) {
+        setChosenDecksCards((draft) =>
+            draft.filter((c) => c.cardid !== card.cardid)
+        );
+    }
+
     return (
         <div>
             <VStack>
-                <div className="flashcard-container">
-                    {chosenDeck && <Flashcard cards={chosenDecksCards} />}
-                </div>
+                {chosenDecksCards.length > 0 ? (
+                    <div className="flashcard-container">
+                        {chosenDeck && (
+                            <Flashcard
+                                cards={chosenDecksCards}
+                                handleDeletedCard={handleDeletedCard}
+                            />
+                        )}
+                    </div>
+                ) : (
+                    <Alert status="error">
+                        <AlertIcon />
+                        <AlertTitle>Cards needed</AlertTitle>
+                        <AlertDescription>
+                            You need to add a card to your deck!
+                        </AlertDescription>
+                    </Alert>
+                )}
 
                 <VStack>
                     <AppOptions

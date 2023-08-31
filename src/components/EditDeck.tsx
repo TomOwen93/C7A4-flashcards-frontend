@@ -37,7 +37,7 @@ export default function EditDeck({
 
     return (
         <>
-            <Button onClick={onOpen}>Edit Deck</Button>
+            <Button onClick={onOpen}>Edit deck</Button>
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
