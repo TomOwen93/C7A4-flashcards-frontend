@@ -3,13 +3,20 @@ import {
     AlertDescription,
     AlertIcon,
     AlertTitle,
+    Button,
     HStack,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
 } from "@chakra-ui/react";
 import { Card, Deck, User } from "../utils/types";
 import CreateDeck from "./CreateDeck";
 import DeleteDeck from "./DeleteDeck";
 import AddCard from "./AddCard";
 import EditDeck from "./EditDeck";
+import DownloadCSV from "./DownloadCSV";
+import ImportCSV from "./ImportCSV";
 
 interface AppOptionsProps {
     chosenDeck?: Deck;
@@ -18,6 +25,7 @@ interface AppOptionsProps {
     removeDeck: (deck: Deck) => void;
     addCardtoDeck: (card: Card) => void;
     editDeckName: (deck: Deck, name: string) => void;
+    chosenDecksCards?: Card[];
 }
 
 export default function AppOptions({
@@ -27,26 +35,42 @@ export default function AppOptions({
     removeDeck,
     addCardtoDeck,
     editDeckName,
+    chosenDecksCards,
 }: AppOptionsProps): JSX.Element {
+    console.log(chosenDecksCards);
     return (
         <>
             {chosenDeck ? (
-                <HStack>
-                    <DeleteDeck
-                        chosenDeck={chosenDeck}
-                        removeDeck={removeDeck}
-                    />
-
-                    <AddCard
-                        chosenDeck={chosenDeck}
-                        addCardtoDeck={addCardtoDeck}
-                    />
-
-                    <EditDeck
-                        chosenDeck={chosenDeck}
-                        editDeckName={editDeckName}
-                    />
-                </HStack>
+                <>
+                    <HStack>
+                        <Menu>
+                            <MenuButton as={Button}>Deck options</MenuButton>
+                            <MenuList>
+                                <MenuItem>
+                                    <DeleteDeck
+                                        chosenDeck={chosenDeck}
+                                        removeDeck={removeDeck}
+                                    />
+                                </MenuItem>
+                                <MenuItem>
+                                    <EditDeck
+                                        chosenDeck={chosenDeck}
+                                        editDeckName={editDeckName}
+                                    />
+                                </MenuItem>
+                                <MenuItem>
+                                    {chosenDecksCards !== undefined && (
+                                        <DownloadCSV cards={chosenDecksCards} />
+                                    )}
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                        <AddCard
+                            chosenDeck={chosenDeck}
+                            addCardtoDeck={addCardtoDeck}
+                        />
+                    </HStack>
+                </>
             ) : (
                 <Alert status="error">
                     <AlertIcon />
@@ -57,6 +81,7 @@ export default function AppOptions({
                 </Alert>
             )}
             <CreateDeck user={user} addDeck={addDeck} />
+            <ImportCSV user={user} addDeck={addDeck} />
         </>
     );
 }

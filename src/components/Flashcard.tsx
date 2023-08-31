@@ -132,7 +132,7 @@ export function Flashcard({
                                             <Button
                                                 onClick={() => handleNextCard()}
                                             >
-                                                next card
+                                                Next card
                                             </Button>
                                         </>
                                     )}

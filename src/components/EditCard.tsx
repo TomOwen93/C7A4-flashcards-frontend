@@ -48,7 +48,7 @@ export default function EditCard({
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>{`Editing Current Card:`}:</ModalHeader>
+                    <ModalHeader>{`Editing Current Card:`}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack>
@@ -75,7 +75,7 @@ export default function EditCard({
                             mr={3}
                             onClick={() => handleEditCard()}
                         >
-                            Submit Edits
+                            Submit edit
                         </Button>
                         <Button colorScheme="blue" mr={3} onClick={onClose}>
                             Close
