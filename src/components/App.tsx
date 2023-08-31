@@ -23,12 +23,11 @@ function App() {
 
     const fetchUsers = async () => {
         const users = await axios.get(`${baseUrl}/users`);
-        console.log(users);
+
         setUserlist(users.data);
     };
 
     const updateUser = async (selectedUser: User) => {
-        console.log(selectedUser);
         setUser(selectedUser);
     };
 

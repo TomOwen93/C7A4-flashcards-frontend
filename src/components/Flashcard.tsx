@@ -1,4 +1,4 @@
-import { Card } from "../utils/types";
+import { Card, Deck, User } from "../utils/types";
 import { useImmer } from "use-immer";
 
 import {
@@ -24,11 +24,15 @@ interface FlashcardState {
 
 interface FlashcardProps {
     cards: Card[];
+    user: User;
+    chosenDeck: Deck;
     handleDeletedCard: (card: Card) => void;
 }
 
 export function Flashcard({
     cards,
+    user,
+    chosenDeck,
     handleDeletedCard,
 }: FlashcardProps): JSX.Element {
     const initialState = {
@@ -82,11 +86,9 @@ export function Flashcard({
         });
     }
 
-    console.log(currentCard);
-
     return (
         <>
-            {cards.length !== 0 && (
+            {cards.length !== 0 && chosenDeck.userid === user.userid && (
                 <VStack>
                     <ChakraCard>
                         <CardBody>
@@ -141,7 +143,7 @@ export function Flashcard({
                                         <Button
                                             onClick={() => handlePrevCard()}
                                         >
-                                            previous card
+                                            Previous card
                                         </Button>
                                     )}
                                 </ButtonGroup>

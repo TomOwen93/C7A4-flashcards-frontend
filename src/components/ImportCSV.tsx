@@ -64,7 +64,6 @@ export default function ImportCSV({ user, addDeck }: ImportCSVProps) {
                     );
                 },
             });
-            console.log(csvData);
             onOpen();
         }
     };

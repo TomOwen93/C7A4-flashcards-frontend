@@ -37,7 +37,6 @@ export default function AppOptions({
     editDeckName,
     chosenDecksCards,
 }: AppOptionsProps): JSX.Element {
-    console.log(chosenDecksCards);
     return (
         <>
             {chosenDeck ? (
