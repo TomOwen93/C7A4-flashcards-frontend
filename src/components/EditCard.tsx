@@ -29,8 +29,8 @@ export default function EditCard({
     handleEditedCard,
 }: EditCardProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [frontInputValue, setFrontInputValue] = useState(currentCard.front);
-    const [backInputValue, setBackInputValue] = useState(currentCard.back);
+    const [frontInputValue, setFrontInputValue] = useState("");
+    const [backInputValue, setBackInputValue] = useState("");
 
     const handleEditCard = async () => {
         await axios.patch(`${baseUrl}/cards/${currentCard.cardid}`, {
@@ -53,14 +53,14 @@ export default function EditCard({
                     <ModalBody>
                         <VStack>
                             <Textarea
-                                placeholder="Edit front"
+                                placeholder={currentCard.front}
                                 value={frontInputValue}
                                 onChange={(e) =>
                                     setFrontInputValue(e.target.value)
                                 }
                             ></Textarea>
                             <Textarea
-                                placeholder="Enter back"
+                                placeholder={currentCard.back}
                                 value={backInputValue}
                                 onChange={(e) =>
                                     setBackInputValue(e.target.value)
