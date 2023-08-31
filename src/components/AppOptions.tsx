@@ -37,9 +37,10 @@ export default function AppOptions({
     editDeckName,
     chosenDecksCards,
 }: AppOptionsProps): JSX.Element {
+    console.log(chosenDeck);
     return (
         <>
-            {chosenDeck ? (
+            {chosenDeck && chosenDeck.userid === user.userid ? (
                 <>
                     <HStack>
                         <Menu>
