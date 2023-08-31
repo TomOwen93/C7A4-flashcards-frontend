@@ -41,6 +41,7 @@ export default function AppOptions({
                         chosenDeck={chosenDeck}
                         addCardtoDeck={addCardtoDeck}
                     />
+
                     <EditDeck
                         chosenDeck={chosenDeck}
                         editDeckName={editDeckName}

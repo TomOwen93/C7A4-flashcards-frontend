@@ -99,12 +99,12 @@ export function UserLogin({
                     ))}
                 </Select>
                 <h1>{user && `Currently logged in as: ${user.username}`}</h1>
-                <Button onClick={onOpen}>Submit new user</Button>
+                <Button onClick={onOpen}>Register new user</Button>
 
                 <Modal isOpen={isOpen} onClose={onClose} isCentered>
                     <ModalOverlay />
                     <ModalContent>
-                        <ModalHeader>Submit new user:</ModalHeader>
+                        <ModalHeader>Register new user:</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <Input

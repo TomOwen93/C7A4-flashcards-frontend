@@ -10,7 +10,9 @@ import {
     Heading,
     Center,
     ButtonGroup,
+    Box,
 } from "@chakra-ui/react";
+import EditCard from "./EditCard";
 
 interface FlashcardState {
     currentCardIndex: number; // index in the array of the current card
@@ -22,9 +24,13 @@ interface FlashcardState {
 
 interface FlashcardProps {
     cards: Card[];
+    handleDeletedCard: (card: Card) => void;
 }
 
-export function Flashcard({ cards }: FlashcardProps): JSX.Element {
+export function Flashcard({
+    cards,
+    handleDeletedCard,
+}: FlashcardProps): JSX.Element {
     const initialState = {
         currentCardIndex: 0,
         prevCardIndex: 0,
@@ -35,6 +41,10 @@ export function Flashcard({ cards }: FlashcardProps): JSX.Element {
 
     const [flashcardState, setFlashcardState] =
         useImmer<FlashcardState>(initialState);
+
+    const [currentCard, setCurrentCard] = useImmer(
+        cards[flashcardState.currentCardIndex]
+    );
 
     function handleNextCard() {
         if (flashcardState.shuffle) {
@@ -67,7 +77,12 @@ export function Flashcard({ cards }: FlashcardProps): JSX.Element {
         });
     }
 
-    const currentCard = cards[flashcardState.currentCardIndex];
+    function handleEditedCard(front: string, back: string) {
+        setCurrentCard((draft) => {
+            draft.front = front;
+            draft.back = back;
+        });
+    }
 
     return (
         <>
@@ -75,18 +90,42 @@ export function Flashcard({ cards }: FlashcardProps): JSX.Element {
                 <VStack>
                     <ChakraCard>
                         <CardBody>
+                            <Heading size="md">
+                                {flashcardState.frontSide ? `Front` : `Back`}
+                            </Heading>
                             <Center h={"200px"}>
                                 <Heading size="md">
-                                    {flashcardState.frontSide
-                                        ? currentCard.front
-                                        : currentCard.back}
+                                    <Box
+                                        px="2"
+                                        py="1"
+                                        rounded="full"
+                                        bg={
+                                            flashcardState.frontSide
+                                                ? "red.100"
+                                                : "green.100"
+                                        }
+                                        color={
+                                            flashcardState.frontSide
+                                                ? "red"
+                                                : "green"
+                                        }
+                                    >
+                                        {flashcardState.frontSide
+                                            ? currentCard.front
+                                            : currentCard.back}
+                                    </Box>
                                 </Heading>
                             </Center>
                             <HStack>
                                 <ButtonGroup>
                                     <Button onClick={() => handleFlipCard()}>
-                                        flip card
+                                        Flip card
                                     </Button>
+                                    <EditCard
+                                        currentCard={currentCard}
+                                        handleEditedCard={handleEditedCard}
+                                        handleDeletedCard={handleDeletedCard}
+                                    />
                                     {flashcardState.currentCardIndex <
                                         cards.length - 1 && (
                                         <>

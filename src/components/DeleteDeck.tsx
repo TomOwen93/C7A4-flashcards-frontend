@@ -47,7 +47,7 @@ export default function DeleteDeck({
 
     return (
         <>
-            <Button onClick={onOpen}>Delete Current Deck</Button>
+            <Button onClick={onOpen}>Delete deck</Button>
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
