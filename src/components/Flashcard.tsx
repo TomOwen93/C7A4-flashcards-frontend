@@ -42,15 +42,11 @@ export function Flashcard({
     const [flashcardState, setFlashcardState] =
         useImmer<FlashcardState>(initialState);
 
-    const [currentCard, setCurrentCard] = useImmer(
-        cards[flashcardState.currentCardIndex]
-    );
+    const [currentCard, setCurrentCard] = useImmer(cards[0]);
 
     function handleNextCard() {
         if (flashcardState.shuffle) {
-            const nextCardIndex = Math.floor(
-                Math.random() * (cards.length - 1)
-            );
+            const nextCardIndex = Math.floor(Math.random() * cards.length);
             setFlashcardState((draft) => {
                 draft.prevCardIndex = draft.currentCardIndex;
                 draft.currentCardIndex = nextCardIndex;
@@ -58,17 +54,19 @@ export function Flashcard({
             });
         } else {
             setFlashcardState((draft) => {
-                draft.prevCardIndex = draft.currentCardIndex;
                 draft.currentCardIndex++;
                 draft.frontSide = true;
             });
         }
+
+        setCurrentCard(cards[flashcardState.currentCardIndex + 1]);
     }
     function handlePrevCard() {
         setFlashcardState((draft) => {
-            draft.currentCardIndex = draft.prevCardIndex;
+            draft.currentCardIndex--;
             draft.frontSide = true;
         });
+        setCurrentCard(cards[flashcardState.currentCardIndex - 1]);
     }
 
     function handleFlipCard() {
@@ -83,6 +81,8 @@ export function Flashcard({
             draft.back = back;
         });
     }
+
+    console.log(currentCard);
 
     return (
         <>
