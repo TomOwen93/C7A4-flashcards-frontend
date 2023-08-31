@@ -9,6 +9,7 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Tooltip,
     VStack,
     useDisclosure,
     useToast,
@@ -55,11 +56,12 @@ export default function ImportCSV({ user, addDeck }: ImportCSVProps) {
                         (_row, index) => index !== 0
                     );
 
+                    console.log(filteredOutput, res.data);
+
                     setCsvData(
-                        filteredOutput.map(({ row }: any) => ({
+                        filteredOutput.map((row: any) => ({
                             front: row[1],
-                            back: row[2],
-                            deckid: row[3],
+                            back: row[1],
                         }))
                     );
                 },
@@ -135,9 +137,11 @@ export default function ImportCSV({ user, addDeck }: ImportCSVProps) {
                             onChange={(e) => handleOnChange(e)}
                         />
                         <VStack>
-                            <Button onClick={(e) => handleSubmit(e)}>
-                                Import deck from CSV
-                            </Button>
+                            <Tooltip label="Make sure to choose a CSV with rows containing just front and back text columns">
+                                <Button onClick={(e) => handleSubmit(e)}>
+                                    Import deck from CSV
+                                </Button>
+                            </Tooltip>
                         </VStack>
                     </form>
                 </Center>
