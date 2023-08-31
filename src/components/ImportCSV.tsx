@@ -61,7 +61,7 @@ export default function ImportCSV({ user, addDeck }: ImportCSVProps) {
                     setCsvData(
                         filteredOutput.map((row: any) => ({
                             front: row[1],
-                            back: row[1],
+                            back: row[2],
                         }))
                     );
                 },
