@@ -6,6 +6,7 @@ import {
     Select,
     Stack,
     VStack,
+    Text,
 } from "@chakra-ui/react";
 import { Card, Deck, User } from "../utils/types";
 import { Flashcard } from "./Flashcard";
@@ -127,9 +128,13 @@ export function FlashCardApp({ user }: FlashCardAppProps): JSX.Element {
                         removeDeck={removeDeck}
                         addCardtoDeck={addCardtoDeck}
                         editDeckName={editDeckName}
+                        chosenDecksCards={chosenDecksCards}
                     />
 
                     <Stack>
+                        <Text textAlign={"center"} as="b" fontSize="md">
+                            Current Deck:
+                        </Text>
                         <Select
                             textAlign={"center"}
                             value={chosenDeck?.deckid}

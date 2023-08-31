@@ -13,6 +13,7 @@ import {
     Select,
     VStack,
     useToast,
+    Text,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -29,7 +30,6 @@ interface UserLoginProps {
 export function UserLogin({
     userList,
     updateUser,
-    user,
     addUser,
 }: UserLoginProps): JSX.Element {
     const [inputValue, setInputValue] = useState("");
@@ -86,6 +86,9 @@ export function UserLogin({
     return (
         <>
             <VStack>
+                <Text textAlign={"center"} as="b" fontSize="md">
+                    Current User:
+                </Text>
                 <Select
                     textAlign={"center"}
                     placeholder="Select User"
@@ -98,7 +101,7 @@ export function UserLogin({
                         </option>
                     ))}
                 </Select>
-                <h1>{user && `Currently logged in as: ${user.username}`}</h1>
+
                 <Button onClick={onOpen}>Register new user</Button>
 
                 <Modal isOpen={isOpen} onClose={onClose} isCentered>
