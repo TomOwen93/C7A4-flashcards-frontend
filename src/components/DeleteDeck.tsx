@@ -1,5 +1,7 @@
 import {
     Button,
+    MenuGroup,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -46,31 +48,33 @@ export default function DeleteDeck({
     };
 
     return (
-        <>
+        <MenuGroup>
             <Button onClick={onOpen}>Delete deck</Button>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>
-                        {`Are you sure you want to delete the deck: ${chosenDeck.name}?`}
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody></ModalBody>
+            <MenuItem>
+                <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>
+                            {`Are you sure you want to delete the deck: ${chosenDeck.name}?`}
+                        </ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody></ModalBody>
 
-                    <ModalFooter>
-                        <Button
-                            colorScheme="blue"
-                            mr={3}
-                            onClick={() => handleDeleteDeck()}
-                        >
-                            Yes
-                        </Button>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
-                            No
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
+                        <ModalFooter>
+                            <Button
+                                colorScheme="blue"
+                                mr={3}
+                                onClick={() => handleDeleteDeck()}
+                            >
+                                Yes
+                            </Button>
+                            <Button colorScheme="blue" mr={3} onClick={onClose}>
+                                No
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </MenuItem>
+        </MenuGroup>
     );
 }

@@ -2,6 +2,8 @@ import {
     Button,
     HStack,
     Input,
+    MenuGroup,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -38,42 +40,47 @@ export default function DownloadCSV({ cards }: DownloadCSVProps) {
     }));
 
     return (
-        <>
+        <MenuGroup>
             <Button onClick={onOpen}>Download as CSV</Button>
+            <MenuItem>
+                <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>
+                            Edit csv file name before download:
+                        </ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Input
+                                value={fileName}
+                                placeholder="Enter file name"
+                                onChange={(e) => setFileName(e.target.value)}
+                            ></Input>
+                        </ModalBody>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>
-                        Edit csv file name before download:
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Input
-                            value={fileName}
-                            placeholder="Enter file name"
-                            onChange={(e) => setFileName(e.target.value)}
-                        ></Input>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <HStack>
-                            <Button>
-                                <CSVLink
-                                    data={data}
-                                    headers={headers}
-                                    filename={fileName}
+                        <ModalFooter>
+                            <HStack>
+                                <Button>
+                                    <CSVLink
+                                        data={data}
+                                        headers={headers}
+                                        filename={fileName}
+                                    >
+                                        Download CSV
+                                    </CSVLink>
+                                </Button>
+                                <Button
+                                    colorScheme="blue"
+                                    mr={3}
+                                    onClick={onClose}
                                 >
-                                    Download CSV
-                                </CSVLink>
-                            </Button>
-                            <Button colorScheme="blue" mr={3} onClick={onClose}>
-                                Close
-                            </Button>
-                        </HStack>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
+                                    Close
+                                </Button>
+                            </HStack>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </MenuItem>
+        </MenuGroup>
     );
 }

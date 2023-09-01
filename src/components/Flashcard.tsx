@@ -80,10 +80,15 @@ export function Flashcard({
     }
 
     function handleEditedCard(front: string, back: string) {
-        setCurrentCard((draft) => {
-            draft.front = front;
-            draft.back = back;
-        });
+        if (front === "") {
+            setCurrentCard((draft) => {
+                draft.back = back;
+            });
+        } else {
+            setCurrentCard((draft) => {
+                draft.front = front;
+            });
+        }
     }
 
     return (
