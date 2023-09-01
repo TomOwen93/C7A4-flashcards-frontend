@@ -7,7 +7,6 @@ import {
     HStack,
     Menu,
     MenuButton,
-    MenuItem,
     MenuList,
 } from "@chakra-ui/react";
 import { Card, Deck, User } from "../utils/types";
@@ -37,7 +36,6 @@ export default function AppOptions({
     editDeckName,
     chosenDecksCards,
 }: AppOptionsProps): JSX.Element {
-    console.log(chosenDeck);
     return (
         <>
             {chosenDeck && chosenDeck.userid === user.userid ? (
@@ -46,23 +44,19 @@ export default function AppOptions({
                         <Menu>
                             <MenuButton as={Button}>Deck options</MenuButton>
                             <MenuList>
-                                <MenuItem>
-                                    <DeleteDeck
-                                        chosenDeck={chosenDeck}
-                                        removeDeck={removeDeck}
-                                    />
-                                </MenuItem>
-                                <MenuItem>
-                                    <EditDeck
-                                        chosenDeck={chosenDeck}
-                                        editDeckName={editDeckName}
-                                    />
-                                </MenuItem>
-                                <MenuItem>
-                                    {chosenDecksCards !== undefined && (
-                                        <DownloadCSV cards={chosenDecksCards} />
-                                    )}
-                                </MenuItem>
+                                <DeleteDeck
+                                    chosenDeck={chosenDeck}
+                                    removeDeck={removeDeck}
+                                />
+
+                                <EditDeck
+                                    chosenDeck={chosenDeck}
+                                    editDeckName={editDeckName}
+                                />
+
+                                {chosenDecksCards !== undefined && (
+                                    <DownloadCSV cards={chosenDecksCards} />
+                                )}
                             </MenuList>
                         </Menu>
                         <AddCard

@@ -39,6 +39,8 @@ export default function EditCard({
         });
 
         handleEditedCard(frontInputValue, backInputValue);
+        setFrontInputValue("");
+        setBackInputValue("");
         onClose();
     };
 

@@ -1,6 +1,8 @@
 import {
     Button,
     Input,
+    MenuGroup,
+    MenuItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -36,34 +38,36 @@ export default function EditDeck({
     };
 
     return (
-        <>
+        <MenuGroup>
             <Button onClick={onOpen}>Edit deck</Button>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>{`Edit Deck: ${chosenDeck.name}`}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Input
-                            placeholder="Enter new name:"
-                            onChange={(e) => setInputValue(e.target.value)}
-                        ></Input>
-                    </ModalBody>
+            <MenuItem>
+                <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>{`Edit Deck: ${chosenDeck.name}`}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Input
+                                placeholder="Enter new name:"
+                                onChange={(e) => setInputValue(e.target.value)}
+                            ></Input>
+                        </ModalBody>
 
-                    <ModalFooter>
-                        <Button
-                            colorScheme="blue"
-                            mr={3}
-                            onClick={() => handleEditDeck(inputValue)}
-                        >
-                            Submit
-                        </Button>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
-                            Close
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
+                        <ModalFooter>
+                            <Button
+                                colorScheme="blue"
+                                mr={3}
+                                onClick={() => handleEditDeck(inputValue)}
+                            >
+                                Submit
+                            </Button>
+                            <Button colorScheme="blue" mr={3} onClick={onClose}>
+                                Close
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </MenuItem>
+        </MenuGroup>
     );
 }
