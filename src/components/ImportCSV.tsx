@@ -18,11 +18,12 @@ import { useState } from "react";
 import Papa from "papaparse";
 import axios, { AxiosResponse } from "axios";
 import { baseUrl } from "../utils/baseUrl";
-import { Deck, User } from "../utils/types";
+import { User } from "../utils/types";
+import { Action } from "../utils/reducer";
 
 interface ImportCSVProps {
     user: User;
-    addDeck: (deck: Deck) => void;
+    dispatch: React.Dispatch<Action>;
 }
 
 interface CSVData {
@@ -31,7 +32,7 @@ interface CSVData {
     deckid: string;
 }
 
-export default function ImportCSV({ user, addDeck }: ImportCSVProps) {
+export default function ImportCSV({ user, dispatch }: ImportCSVProps) {
     const [file, setFile] = useState<File>();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [csvData, setCsvData] = useState<CSVData[]>();
@@ -103,7 +104,7 @@ export default function ImportCSV({ user, addDeck }: ImportCSVProps) {
 
             successToast(`Successfully submitted deck:
              "${name}"`);
-            addDeck(response.data);
+            dispatch({ type: "add-deck", payload: response.data });
             handleSubmitCards(response.data.deckid);
         } else {
             failToast("Your deck name must not be blank or null!");

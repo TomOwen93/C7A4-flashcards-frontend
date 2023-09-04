@@ -14,17 +14,18 @@ import {
 import { Card } from "../utils/types";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
+import { Action } from "../utils/reducer";
 
 interface DeleteCardProps {
     currentCard: Card;
-    handleDeletedCard: (card: Card) => void;
+    dispatch: React.Dispatch<Action>;
     frontValue: string;
     backValue: string;
 }
 
 export default function DeleteCard({
     currentCard,
-    handleDeletedCard,
+    dispatch,
     frontValue,
     backValue,
 }: DeleteCardProps): JSX.Element {
@@ -32,7 +33,7 @@ export default function DeleteCard({
 
     const handleDeleteCard = async () => {
         await axios.delete(`${baseUrl}/cards/${currentCard.cardid}`);
-        handleDeletedCard(currentCard);
+        dispatch({ type: "delete-card", payload: currentCard });
         onClose();
     };
 

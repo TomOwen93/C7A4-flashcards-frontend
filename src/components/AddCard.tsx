@@ -11,19 +11,20 @@ import {
     Textarea,
     VStack,
 } from "@chakra-ui/react";
-import { Card, Deck } from "../utils/types";
+import { Deck } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
+import { Action } from "../utils/reducer";
 
 interface AddCardProps {
     chosenDeck: Deck;
-    addCardtoDeck: (card: Card) => void;
+    dispatch: React.Dispatch<Action>;
 }
 
 export default function AddCard({
     chosenDeck,
-    addCardtoDeck,
+    dispatch,
 }: AddCardProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [frontInputValue, setFrontInputValue] = useState("");
@@ -38,7 +39,7 @@ export default function AddCard({
         setFrontInputValue("");
         setBackInputValue("");
 
-        addCardtoDeck(response.data);
+        dispatch({ type: "add-card", payload: response.data });
         onClose();
     };
 

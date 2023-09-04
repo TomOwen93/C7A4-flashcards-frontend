@@ -16,16 +16,17 @@ import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
 import DeleteCard from "./DeleteCard";
+import { Action } from "../utils/reducer";
 
 interface EditCardProps {
     currentCard: Card;
     handleEditedCard: (front: string, back: string) => void;
-    handleDeletedCard: (card: Card) => void;
+    dispatch: (action: Action) => void;
 }
 
 export default function EditCard({
     currentCard,
-    handleDeletedCard,
+    dispatch,
     handleEditedCard,
 }: EditCardProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -84,7 +85,7 @@ export default function EditCard({
                         </Button>
                         <DeleteCard
                             currentCard={currentCard}
-                            handleDeletedCard={handleDeletedCard}
+                            dispatch={dispatch}
                             frontValue={frontInputValue}
                             backValue={backInputValue}
                         />

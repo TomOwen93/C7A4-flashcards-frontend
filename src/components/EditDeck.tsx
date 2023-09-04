@@ -16,15 +16,17 @@ import { Deck } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
+import { Action } from "../utils/reducer";
 
 interface EditDeckProps {
     chosenDeck: Deck;
-    editDeckName: (deck: Deck, name: string) => void;
+    dispatch: React.Dispatch<Action>;
 }
 
 export default function EditDeck({
     chosenDeck,
-    editDeckName,
+
+    dispatch,
 }: EditDeckProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [inputValue, setInputValue] = useState<string>("Enter name");
@@ -33,7 +35,11 @@ export default function EditDeck({
         await axios.patch(`${baseUrl}/decks/${chosenDeck.deckid}`, {
             name: newName,
         });
-        editDeckName(chosenDeck, newName);
+        dispatch({
+            type: "edit-deck-name",
+            payload: { deck: chosenDeck, name: newName },
+        });
+
         onClose();
     };
 

@@ -13,6 +13,7 @@ import {
     Box,
 } from "@chakra-ui/react";
 import EditCard from "./EditCard";
+import { Action } from "../utils/reducer";
 
 interface FlashcardState {
     currentCardIndex: number; // index in the array of the current card
@@ -26,14 +27,14 @@ interface FlashcardProps {
     cards: Card[];
     user: User;
     chosenDeck: Deck;
-    handleDeletedCard: (card: Card) => void;
+    dispatch: React.Dispatch<Action>;
 }
 
 export function Flashcard({
     cards,
     user,
     chosenDeck,
-    handleDeletedCard,
+    dispatch,
 }: FlashcardProps): JSX.Element {
     const initialState = {
         currentCardIndex: 0,
@@ -131,7 +132,7 @@ export function Flashcard({
                                     <EditCard
                                         currentCard={currentCard}
                                         handleEditedCard={handleEditedCard}
-                                        handleDeletedCard={handleDeletedCard}
+                                        dispatch={dispatch}
                                     />
                                     {flashcardState.currentCardIndex <
                                         cards.length - 1 && (

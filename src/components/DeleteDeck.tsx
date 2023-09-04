@@ -15,22 +15,22 @@ import {
 import { Deck } from "../utils/types";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
+import { Action } from "../utils/reducer";
 
 interface DeleteDeckProps {
     chosenDeck: Deck;
-    removeDeck: (deck: Deck) => void;
+    dispatch: React.Dispatch<Action>;
 }
 
 export default function DeleteDeck({
     chosenDeck,
-    removeDeck,
+    dispatch,
 }: DeleteDeckProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleDeleteDeck = async () => {
         await axios.delete(`${baseUrl}/decks/${chosenDeck.deckid}`);
-        removeDeck(chosenDeck);
-
+        dispatch({ type: "delete-deck", payload: chosenDeck });
         deleteToast(`Deck: ${chosenDeck.name} has been deleted`);
 
         onClose();

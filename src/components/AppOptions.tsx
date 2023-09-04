@@ -16,24 +16,19 @@ import AddCard from "./AddCard";
 import EditDeck from "./EditDeck";
 import DownloadCSV from "./DownloadCSV";
 import ImportCSV from "./ImportCSV";
+import { Action } from "../utils/reducer";
 
 interface AppOptionsProps {
     chosenDeck?: Deck;
     user: User;
-    addDeck: (deck: Deck) => void;
-    removeDeck: (deck: Deck) => void;
-    addCardtoDeck: (card: Card) => void;
-    editDeckName: (deck: Deck, name: string) => void;
+    dispatch: React.Dispatch<Action>;
     chosenDecksCards?: Card[];
 }
 
 export default function AppOptions({
     chosenDeck,
     user,
-    addDeck,
-    removeDeck,
-    addCardtoDeck,
-    editDeckName,
+    dispatch,
     chosenDecksCards,
 }: AppOptionsProps): JSX.Element {
     return (
@@ -46,23 +41,18 @@ export default function AppOptions({
                             <MenuList>
                                 <DeleteDeck
                                     chosenDeck={chosenDeck}
-                                    removeDeck={removeDeck}
+                                    dispatch={dispatch}
                                 />
-
                                 <EditDeck
                                     chosenDeck={chosenDeck}
-                                    editDeckName={editDeckName}
+                                    dispatch={dispatch}
                                 />
-
                                 {chosenDecksCards !== undefined && (
                                     <DownloadCSV cards={chosenDecksCards} />
                                 )}
                             </MenuList>
                         </Menu>
-                        <AddCard
-                            chosenDeck={chosenDeck}
-                            addCardtoDeck={addCardtoDeck}
-                        />
+                        <AddCard chosenDeck={chosenDeck} dispatch={dispatch} />
                     </HStack>
                 </>
             ) : (
@@ -74,8 +64,8 @@ export default function AppOptions({
                     </AlertDescription>
                 </Alert>
             )}
-            <CreateDeck user={user} addDeck={addDeck} />
-            <ImportCSV user={user} addDeck={addDeck} />
+            <CreateDeck user={user} dispatch={dispatch} />
+            <ImportCSV user={user} dispatch={dispatch} />
         </>
     );
 }

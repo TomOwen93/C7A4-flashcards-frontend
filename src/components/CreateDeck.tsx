@@ -11,19 +11,20 @@ import {
     useDisclosure,
     useToast,
 } from "@chakra-ui/react";
-import { Deck, User } from "../utils/types";
+import { User } from "../utils/types";
 import { useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../utils/baseUrl";
+import { Action } from "../utils/reducer";
 
 interface CreateDeckProps {
     user: User;
-    addDeck: (deck: Deck) => void;
+    dispatch: React.Dispatch<Action>;
 }
 
 export default function CreateDeck({
     user,
-    addDeck,
+    dispatch,
 }: CreateDeckProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [inputValue, setInputValue] = useState<string>("Enter name");
@@ -57,7 +58,7 @@ export default function CreateDeck({
             });
             successToast(`Successfully submitted deck:
              "${name}"`);
-            addDeck(response.data);
+            dispatch({ type: "add-deck", payload: response.data });
         } else {
             failToast("Your deck name must not be blank or null!");
         }
