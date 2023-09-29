@@ -11,9 +11,18 @@ export function chooseDeck(state: AppState, deckid: number): AppState {
     }
 }
 
-export async function handleFetchAll(user: User): Promise<AppState> {
+export async function handleFetchAll(
+    user: User,
+    currentDeck?: Deck
+): Promise<AppState> {
     const fetchedDecks = await fetchDecks(user);
-    const chosenDeck = fetchedDecks[0];
+
+    let chosenDeck;
+    if (!currentDeck) {
+        chosenDeck = fetchedDecks[0];
+    } else {
+        chosenDeck = currentDeck;
+    }
 
     const fetchedCards: Card[] = await fetchCards(chosenDeck);
 
